@@ -4,5 +4,6 @@ const { validateName } = require('../middleware/categoriesValidate');
 const { tokenValidate } = require('../middleware/tokenValidate');
 
 categoriesRoutes.post('/', tokenValidate, validateName, controllerCategories.createCategory);
+categoriesRoutes.get('/', tokenValidate, controllerCategories.getAllCategories);
 
 module.exports = categoriesRoutes;
