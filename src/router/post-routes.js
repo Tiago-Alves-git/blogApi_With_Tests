@@ -24,4 +24,12 @@ postRoutes.get(
   controllerPosts.findPostById,
 );
 
+postRoutes.put(
+  '/:id',
+  tokenValidate,
+  validateContent,
+  validateTitle,
+  controllerPosts.updatePostById,
+);
+
 module.exports = postRoutes;

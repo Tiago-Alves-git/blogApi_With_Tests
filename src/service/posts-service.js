@@ -1,4 +1,5 @@
 const { BlogPost, PostCategory, User, Category } = require('../models');
+const { decodeToken } = require('../utils/auth');
 
 const httpErrGen = (status, message) => ({ status, message });
 
@@ -57,8 +58,22 @@ const findPostById = async (id) => {
    return result;
 };
 
+const updatePostById = async (title, content, id, auth) => {
+  const oldPost = await findPostById(id);
+  const user = await decodeToken(auth);
+  if (oldPost.dataValues.userId !== user.id) {
+    throw httpErrGen(401, 'Unauthorized user');
+  }
+  await BlogPost.update({ title: `${title}`, content: `${content}` }, {
+      where: { id },
+    });
+    const result = await findPostById(id);
+  return result;
+};
+
 module.exports = {
   createPost,
   findAllPosts,
   findPostById,
+  updatePostById,
 };

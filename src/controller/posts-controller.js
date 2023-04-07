@@ -36,8 +36,21 @@ const findPostById = async (req, res, next) => {
   }
 };
 
+const updatePostById = async (req, res, next) => {
+  const { id } = req.params;
+  const { title, content } = req.body;
+  const { authorization } = req.headers;
+  try {
+    const result = await servicePosts.updatePostById(title, content, id, authorization);
+    return res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   createPost,
   findAllPosts,
   findPostById,
+  updatePostById,
 };
