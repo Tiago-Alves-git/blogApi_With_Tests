@@ -16,7 +16,7 @@ const createPost = async (req, res, next) => {
   }
 };
 
-const findAllPosts = async (req, res, next) => {
+const findAllPosts = async (_req, res, next) => {
   try {
    const result = await servicePosts.findAllPosts();
    console.log(result);
@@ -26,7 +26,18 @@ const findAllPosts = async (req, res, next) => {
   }
 };
 
+const findPostById = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const result = await servicePosts.findPostById(id);
+    return res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   createPost,
   findAllPosts,
+  findPostById,
 };

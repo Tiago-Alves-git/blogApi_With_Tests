@@ -18,4 +18,10 @@ postRoutes.get(
   controllerPosts.findAllPosts,
 );
 
+postRoutes.get(
+  '/:id',
+  tokenValidate,
+  controllerPosts.findPostById,
+);
+
 module.exports = postRoutes;
