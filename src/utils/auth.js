@@ -17,6 +17,7 @@ const generateToken = (payload) => {
 const validateToken = (token) => {
   if (!token) throw httpErrGen(400, 'Token invalid');
   const isValid = jwt.verify(token, secretKey);
+  console.log(isValid, 'isValid');
   return isValid;
 };
 

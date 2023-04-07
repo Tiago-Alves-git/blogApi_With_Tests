@@ -14,6 +14,16 @@ const signUp = async (req, res, next) => {
   }
 };
 
+const findAllUsers = async (req, res, next) => {
+  try {
+    const result = await serviceUser.findAllUsers();
+  return res.status(200).json(result);
+} catch (error) {
+  next(error);
+}
+};
+
 module.exports = {
   signUp,
+  findAllUsers,
 };

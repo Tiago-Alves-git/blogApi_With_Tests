@@ -20,6 +20,14 @@ const signUp = async (data) => {
   return result;
 };
 
+const findAllUsers = async () => {
+  const result = await User.findAll({
+    attributes: ['id', 'displayName', 'email', 'image'],
+  });
+  return result;
+};
+
 module.exports = {
   signUp,
+  findAllUsers,
 };
