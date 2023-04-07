@@ -12,4 +12,10 @@ validateTitle,
 controllerPosts.createPost,
 );
 
+postRoutes.get(
+  '/',
+  tokenValidate,
+  controllerPosts.findAllPosts,
+);
+
 module.exports = postRoutes;

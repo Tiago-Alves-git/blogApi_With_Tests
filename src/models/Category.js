@@ -14,9 +14,6 @@ const Category = (sequelize, DataTypes) => {
       timestamps: false
     });
 
-    Category.associate = (model) => {
-  }
-
   // HasOne -> Tem Um
   // belongsTo -> Pertence a
   // hasMany -> Tem muitos
