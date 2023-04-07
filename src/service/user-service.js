@@ -27,7 +27,20 @@ const findAllUsers = async () => {
   return result;
 };
 
+const findUserById = async (id) => {
+  try {
+    const [result] = await User.findAll({
+      attributes: ['id', 'displayName', 'email', 'image'],
+      where: { id },
+    });
+    return result.dataValues;
+  } catch (error) {
+    throw httpErrGen(404, 'User does not exist');
+  }
+};
+
 module.exports = {
   signUp,
   findAllUsers,
+  findUserById,
 };

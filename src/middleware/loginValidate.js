@@ -1,6 +1,5 @@
 const validateInputs = async (req, res, next) => {
   const { password, email } = req.body;
-  console.log(password, email);
   if (!password || password.length <= 0) {
     return res.status(400).json({ message: 'Some required fields are missing' });
   }

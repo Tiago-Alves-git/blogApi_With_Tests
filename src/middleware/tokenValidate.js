@@ -7,8 +7,7 @@ const tokenValidate = async (req, res, next) => {
     return res.status(401).json({ message: 'Token not found' });
   }
   try {
-    const test = validateToken(authorization);
-    console.log(test, 'test');
+    validateToken(authorization);
   } catch (_error) {
     return res.status(401).json({ message: 'Expired or invalid token' });
   }

@@ -8,4 +8,6 @@ userRoutes.post('/', validEmail, validName, validPassword, controllerUser.signUp
 
 userRoutes.get('/', tokenValidate, controllerUser.findAllUsers);
 
+userRoutes.get('/:id', tokenValidate, controllerUser.findUserById);
+
 module.exports = userRoutes;

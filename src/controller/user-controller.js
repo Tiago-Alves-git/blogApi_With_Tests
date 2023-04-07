@@ -14,7 +14,7 @@ const signUp = async (req, res, next) => {
   }
 };
 
-const findAllUsers = async (req, res, next) => {
+const findAllUsers = async (_req, res, next) => {
   try {
     const result = await serviceUser.findAllUsers();
   return res.status(200).json(result);
@@ -23,7 +23,19 @@ const findAllUsers = async (req, res, next) => {
 }
 };
 
+const findUserById = async (req, res, next) => {
+  const { id } = req.params;
+  console.log(id, 'id');
+  try {
+    const result = await serviceUser.findUserById(id);
+    return res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   signUp,
   findAllUsers,
+  findUserById,
 };
