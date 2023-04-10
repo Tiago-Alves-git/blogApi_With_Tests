@@ -25,7 +25,6 @@ const findAllUsers = async (_req, res, next) => {
 
 const findUserById = async (req, res, next) => {
   const { id } = req.params;
-  console.log(id, 'id');
   try {
     const result = await serviceUser.findUserById(id);
     return res.status(200).json(result);

@@ -22,7 +22,6 @@ const checkCategory = async (categoryIds) => {
     id: CategoryId } }));
 const promise = await Promise.all(result);
 const test = promise.some((resultado) => resultado.length <= 0);
-console.log(test);
 if (test) {
   throw httpErrGen(400, 'one or more "categoryIds" not found');
 }

@@ -19,7 +19,6 @@ const createPost = async (req, res, next) => {
 const findAllPosts = async (_req, res, next) => {
   try {
    const result = await servicePosts.findAllPosts();
-   console.log(result);
    return res.status(200).json(result);
   } catch (error) {
     next(error);
@@ -59,10 +58,22 @@ const deletePostById = async (req, res, next) => {
   }
 };
 
+const findPostByQuery = async (req, res, next) => {
+  const { q } = req.query;
+  console.log('Query x = ', q);
+  try {
+    const result = await servicePosts.findPostByQuery(q);
+    return res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   createPost,
   findAllPosts,
   findPostById,
   updatePostById,
   deletePostById,
+  findPostByQuery,
 };

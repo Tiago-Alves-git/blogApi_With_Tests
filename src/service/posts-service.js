@@ -1,3 +1,5 @@
+// const { Op } = require('sequelize');
+const { Op } = require('sequelize');
 const { BlogPost, User, Category } = require('../models');
 const { decodeToken } = require('../utils/auth');
 
@@ -83,7 +85,26 @@ const deletePostById = async (id, auth) => {
   if (result !== 1) {
     throw httpErrGen(401, 'Delete post failed');
   }
-  console.log(result);
+  return result;
+};
+
+const findPostByQuery = async (data) => {
+  if (data.length === 0) return findAllPosts();
+  const result = await BlogPost.findAll({
+    where: {
+      [Op.or]: [{ title: { [Op.in]: [data] } }, { content: { [Op.in]: [data] } }],
+    },
+    include: [{
+      model: User,
+      attributes: { exclude: ['password'] },
+      as: 'user',
+    },
+    {
+      model: Category,
+      as: 'categories',
+      through: { attributes: [] },
+    }],
+  });
   return result;
 };
 
@@ -93,4 +114,5 @@ module.exports = {
   findPostById,
   updatePostById,
   deletePostById,
+  findPostByQuery,
 };

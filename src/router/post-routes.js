@@ -19,6 +19,12 @@ postRoutes.get(
 );
 
 postRoutes.get(
+  '/search',
+  tokenValidate,
+  controllerPosts.findPostByQuery,
+);
+
+postRoutes.get(
   '/:id',
   tokenValidate,
   controllerPosts.findPostById,
