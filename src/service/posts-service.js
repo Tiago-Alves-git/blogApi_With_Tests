@@ -41,7 +41,7 @@ const findAllPosts = async () => {
 };
 
 const findPostById = async (id) => {
-  const [result] = await BlogPost.findByPk(id, { 
+  const result = await BlogPost.findByPk(id, { 
     include: [{
       model: User,
       attributes: { exclude: ['password'] },
@@ -92,7 +92,7 @@ const findPostByQuery = async (data) => {
   if (data.length === 0) return findAllPosts();
   const result = await BlogPost.findAll({
     where: {
-      [Op.or]: [{ title: { [Op.in]: [data] } }, { content: { [Op.in]: [data] } }],
+      [Op.or]: [{ title: { [Op.substring]: [data] } }, { content: { [Op.substring]: [data] } }],
     },
     include: [{
       model: User,

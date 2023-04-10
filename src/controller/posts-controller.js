@@ -27,6 +27,7 @@ const findAllPosts = async (_req, res, next) => {
 
 const findPostById = async (req, res, next) => {
   const { id } = req.params;
+  console.log('Teste se chegou na findid');
   try {
     const result = await servicePosts.findPostById(id);
     return res.status(200).json(result);
