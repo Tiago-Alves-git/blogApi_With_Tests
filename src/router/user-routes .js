@@ -10,4 +10,6 @@ userRoutes.get('/', tokenValidate, controllerUser.findAllUsers);
 
 userRoutes.get('/:id', tokenValidate, controllerUser.findUserById);
 
+userRoutes.delete('/me', tokenValidate, controllerUser.deleteMe);
+
 module.exports = userRoutes;

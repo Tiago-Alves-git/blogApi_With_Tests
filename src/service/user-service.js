@@ -1,4 +1,5 @@
 const { User } = require('../models');
+const { decodeToken } = require('../utils/auth');
 
 const httpErrGen = (status, message) => ({ status, message });
 
@@ -39,8 +40,17 @@ const findUserById = async (id) => {
   }
 };
 
+const deleteMe = async (auth) => {
+ const { id } = decodeToken(auth);
+ const result = await User.destroy({
+  where: { id },
+ });
+return result;
+};
+
 module.exports = {
   signUp,
   findAllUsers,
   findUserById,
+  deleteMe,
 };

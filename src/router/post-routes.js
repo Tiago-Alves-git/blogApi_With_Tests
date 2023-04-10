@@ -32,4 +32,10 @@ postRoutes.put(
   controllerPosts.updatePostById,
 );
 
+postRoutes.delete(
+  '/:id',
+  tokenValidate,
+  controllerPosts.deletePostById,
+);
+
 module.exports = postRoutes;

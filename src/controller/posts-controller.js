@@ -48,9 +48,21 @@ const updatePostById = async (req, res, next) => {
   }
 };
 
+const deletePostById = async (req, res, next) => {
+  const { id } = req.params;
+  const { authorization } = req.headers;
+  try {
+   await servicePosts.deletePostById(id, authorization);
+    return res.status(204).json();
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   createPost,
   findAllPosts,
   findPostById,
   updatePostById,
+  deletePostById,
 };

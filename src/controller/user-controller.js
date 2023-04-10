@@ -34,8 +34,19 @@ const findUserById = async (req, res, next) => {
   }
 };
 
+const deleteMe = async (req, res, next) => {
+  const { authorization } = req.headers;
+  try {
+    await serviceUser.deleteMe(authorization);
+    return res.status(204).end();
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   signUp,
   findAllUsers,
   findUserById,
+  deleteMe,
 };

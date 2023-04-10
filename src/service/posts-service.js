@@ -1,4 +1,4 @@
-const { BlogPost, PostCategory, User, Category } = require('../models');
+const { BlogPost, User, Category } = require('../models');
 const { decodeToken } = require('../utils/auth');
 
 const httpErrGen = (status, message) => ({ status, message });
@@ -10,11 +10,11 @@ const createPost = async (title, content, categoryIds, id) => {
       title,
       content,
       userId: id,
+      published: new Date(),
+      updated: new Date(),
     });
-    const postCategory = categoryIds.map((CategoryId) => PostCategory.bulkCreate([
-      { postId: post.dataValues.id, categoryId: CategoryId },
-    ]));
-     await Promise.all(postCategory);
+    await post.addCategories(categoryIds);
+    
     return post.dataValues;
   } catch (error) {
     throw httpErrGen(400, 'one or more "categoryIds" not found');
@@ -31,16 +31,15 @@ const findAllPosts = async () => {
     {
       model: Category,
       as: 'categories',
+      through: { attributes: [] },
     }],
    });
-   const teste = result.map((results) => results.dataValues);
-  console.log(teste);
+
   return result;
 };
 
 const findPostById = async (id) => {
-  const [result] = await BlogPost.findAll({ 
-    where: { userId: id },
+  const [result] = await BlogPost.findByPk(id, { 
     include: [{
       model: User,
       attributes: { exclude: ['password'] },
@@ -49,6 +48,7 @@ const findPostById = async (id) => {
     {
       model: Category,
       as: 'categories',
+      through: { attributes: [] },
     }],
    });
    if (!result) {
@@ -60,7 +60,7 @@ const findPostById = async (id) => {
 
 const updatePostById = async (title, content, id, auth) => {
   const oldPost = await findPostById(id);
-  const user = await decodeToken(auth);
+  const user = decodeToken(auth);
   if (oldPost.dataValues.userId !== user.id) {
     throw httpErrGen(401, 'Unauthorized user');
   }
@@ -71,9 +71,26 @@ const updatePostById = async (title, content, id, auth) => {
   return result;
 };
 
+const deletePostById = async (id, auth) => {
+  const oldPost = await findPostById(id);
+  const user = decodeToken(auth);
+  if (oldPost.dataValues.userId !== user.id) {
+    throw httpErrGen(401, 'Unauthorized user');
+  }
+  const result = await BlogPost.destroy({
+    where: { id },
+  });
+  if (result !== 1) {
+    throw httpErrGen(401, 'Delete post failed');
+  }
+  console.log(result);
+  return result;
+};
+
 module.exports = {
   createPost,
   findAllPosts,
   findPostById,
   updatePostById,
+  deletePostById,
 };
